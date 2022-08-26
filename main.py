@@ -51,7 +51,13 @@ class FindMovieForm(FlaskForm):
 
 @app.route("/")
 def home():
-    all_movies = Movie.query.all()
+    all_movies = Movie.query.order_by("rating").all()
+
+    rank = len(all_movies)
+    for movie in all_movies:
+        movie.ranking = rank
+        rank -= 1
+
     return render_template("index.html", movies=all_movies)
 
 
